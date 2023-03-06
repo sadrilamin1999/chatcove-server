@@ -1,16 +1,28 @@
+require("dotenv").config();
+
 const express = require("express");
 const cors = require("cors");
+const mongoose = require("mongoose");
 
 // express app
 const app = express();
 
-// middlewire
+// middlewares
 app.use(express.json());
 app.use(cors());
 
 //port
 const PORT = process.env.PORT || 4000;
-// listening for request
-app.listen(PORT, (req, res) => {
-  console.log(`setver running on port ${PORT}`);
-});
+
+// connect to db
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => {
+    // listening for request
+    app.listen(PORT, (req, res) => {
+      console.log(`connected to mongodb running on port ${PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.log(err.message);
+  });
