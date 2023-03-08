@@ -104,8 +104,21 @@ const findUser = async (req, res) => {
   }
 };
 
+// get all users
+const getAllUsers = async (req, res) => {
+  try {
+    const users = await userModel.find({});
+
+    res.status(200).json(users);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+};
+
 module.exports = {
   registerUser,
   loginUser,
   findUser,
+  getAllUsers,
 };
